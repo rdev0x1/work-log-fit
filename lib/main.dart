@@ -9,6 +9,7 @@ import 'package:work_log_fit/models/exercise.dart';
 import 'package:work_log_fit/models/work_log_entry.dart';
 import 'screens/programs_list_screen.dart';
 import 'timer.dart';
+import 'settings.dart';
 
 void main() async {
   final GlobalTimerManager globalTimerManager = GlobalTimerManager();
@@ -57,7 +58,7 @@ class WorkLogFitApp extends StatelessWidget {
     return MaterialApp(
       title: 'WorkLogFit',
       theme: ThemeData.dark().copyWith(
-        primaryColor: Color.fromRGBO(60, 0, 128, 1),
+        primaryColor: themeColor,
       ),
       home: ProgramsListScreen(),
     );
