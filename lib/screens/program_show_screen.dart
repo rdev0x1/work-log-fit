@@ -29,7 +29,8 @@ class _ProgramShowScreenState extends BaseListScreenState<Exercise> {
 
   @override
   Exercise? createItem(String name) {
-    return new Exercise(name: name, programId: program.key);
+    return new Exercise(
+        name: name, programId: program.key, muscleGroup: 'Other');
   }
 
   @override
@@ -39,7 +40,6 @@ class _ProgramShowScreenState extends BaseListScreenState<Exercise> {
 
   @override
   Future<List<Exercise>> loadItems(Box<dynamic> box) async {
-    // Obtain the exercises asynchronously
     var exercises = await box.values
         .cast<Exercise>()
         .where((exercise) => exercise.programId == program.key)
@@ -47,7 +47,6 @@ class _ProgramShowScreenState extends BaseListScreenState<Exercise> {
         .reversed
         .toList();
 
-    // Return the exercises in case you need them
     return exercises;
   }
 
@@ -63,9 +62,10 @@ class _ProgramShowScreenState extends BaseListScreenState<Exercise> {
     // Check if an item was selected before trying to add it
     if (selectedExercise != null) {
       final Exercise clonedExercise = Exercise(
-        name: selectedExercise.name,
-        programId: program.key, // Assuming 'program' is your Program instance
-      );
+          name: selectedExercise.name,
+          programId: program.key,
+          image: selectedExercise.image,
+          muscleGroup: selectedExercise.muscleGroup);
       addItem(clonedExercise);
     }
   }

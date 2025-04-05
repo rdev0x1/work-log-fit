@@ -4,11 +4,10 @@ Work Log Fit is an application primarily designed for Android devices, although 
 
 This project is distributed under the MIT license.
 
-# Everkinetic image
+# Warning
 
-The Work Log Fit application enhances the user experience by incorporating visual representations of different exercises.
-The images used for this purpose were originally obtained from the Everkinetic open data project, founded by Greg Priday. 
-While the Everkinetic website is currently not accessible, the images remain an integral part of the application, showcasing various workout exercises.
+I did the main part of this application in one week, in my free time, and without any knowledge of flutter and dart.
+So I did this to learn, and after one week, i can clearly see that it could be simpler.
 
 # Generating Smaller Image Assets
 

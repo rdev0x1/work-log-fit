@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:work_log_fit/models/exercise.dart';
+import 'package:work_log_fit/exercises_manager.dart';
 import 'list_screen_base.dart';
 
 class ExerciseListScreen extends BaseListScreen<Exercise> {
@@ -21,34 +22,7 @@ class ExerciseListScreen extends BaseListScreen<Exercise> {
 class _ExerciseListScreenState extends BaseListScreenState<Exercise> {
   // This box will store custom exercises added by the user
   late Box<dynamic> customExercisesBox;
-
-  // Predefined categories and exercises
-  final Map<String, List<Exercise>> categories = {
-    'Abs': [
-      Exercise(name: 'Crunch', programId: 0),
-      Exercise(name: 'Leg Raise', programId: 0),
-    ],
-    'Biceps': [
-      Exercise(name: 'Larry Scott Dumbbell Curl', programId: 0),
-    ],
-    'Triceps': [
-      Exercise(name: 'Dips', programId: 0),
-    ],
-    'Legs': [
-      Exercise(name: 'Leg Press', programId: 0),
-    ],
-    'Chest': [
-      Exercise(name: 'Butterfly', programId: 0),
-      Exercise(name: 'Machine Bench Press', programId: 0),
-    ],
-    'Shoulder': [
-      Exercise(name: 'Machine Shoulder Military Press', programId: 0),
-    ],
-    'Back': [
-      Exercise(name: 'Lat Pulldown', programId: 0),
-    ],
-    'Other': [],
-  };
+  final exerciseManager = ExerciseManager();
 
   // The list of exercises selected by the user to add to the program
   List<String> selectedExercises = [];
@@ -61,7 +35,7 @@ class _ExerciseListScreenState extends BaseListScreenState<Exercise> {
   @override
   List<Widget> buildItemList(BuildContext context) {
     List<Widget> categorySections = [];
-    categories.forEach((category, exercises) {
+    exerciseManager.categories.forEach((category, exercises) {
       // Add a section header for the category
       categorySections.add(
         Container(
@@ -76,12 +50,15 @@ class _ExerciseListScreenState extends BaseListScreenState<Exercise> {
       // Add a list tile for each exercise in the category
       categorySections.addAll(exercises.map((exercise) {
         return ListTile(
-          leading: Container(
-            color: Theme.of(context).canvasColor,
-            child: Image.asset(
-              'assets/program_icon.png',
+          leading: ClipOval(
+            child: Container(
+              color: Colors.transparent,
               width: 50.0,
               height: 50.0,
+              child: Image.asset(
+                exercise.getImageIcon(),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           title: Text(exercise.name),
@@ -93,10 +70,7 @@ class _ExerciseListScreenState extends BaseListScreenState<Exercise> {
           trailing: showDelete
               ? IconButton(
                   icon: Icon(Icons.delete),
-                  onPressed: () {
-                    // Perform deletion from the customExercisesBox and update the UI accordingly
-                    // You may need a method to get the index or key of the exercise in the customExercisesBox
-                  },
+                  onPressed: () {},
                 )
               : null,
         );
