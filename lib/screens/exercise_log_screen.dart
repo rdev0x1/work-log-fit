@@ -12,6 +12,7 @@ class ExerciseLogScreen extends BaseListScreen<WorkLogEntry> {
   ExerciseLogScreen({super.key, required this.exercise})
       : super(
           title: exercise.name,
+          titleIcon: exercise.getImageIcon(),
           boxName: 'workLog',
           emptyList: 'No logs available - please add a new log.',
           button1Name: 'Stats',
