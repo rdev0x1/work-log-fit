@@ -5,10 +5,15 @@ import 'package:work_log_fit/settings.dart';
 class AddWorkLogScreen extends StatefulWidget {
   final WorkLogEntry? existingEntry;
   final exerciseId;
+  final programId;
   final bool update;
 
   const AddWorkLogScreen(
-      {super.key, this.existingEntry, required this.exerciseId, this.update = false});
+      {super.key,
+      this.existingEntry,
+      required this.exerciseId,
+      this.programId,
+      this.update = false});
 
   @override
   _AddWorkLogScreenState createState() => _AddWorkLogScreenState();
@@ -26,7 +31,7 @@ class _AddWorkLogScreenState extends State<AddWorkLogScreen> {
     super.initState();
     weight = widget.existingEntry?.weight.toString() ?? '0';
     repetitions = widget.existingEntry?.repetitions.toString() ?? '0';
-    saveText = 'Update';
+    if (widget.update) saveText = 'Update';
   }
 
   void addNumber(String number, String type) {
@@ -200,6 +205,7 @@ class _AddWorkLogScreenState extends State<AddWorkLogScreen> {
                         repetitions: int.tryParse(repetitions) ?? 0,
                         date: DateTime.now(),
                         exerciseId: widget.exerciseId,
+                        programId: widget.programId,
                       );
                     }
                     Navigator.pop(context, workLog);
