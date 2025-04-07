@@ -6,6 +6,7 @@ import 'package:work_log_fit/models/exercise.dart';
 import 'package:work_log_fit/settings.dart';
 import 'list_screen_base.dart';
 import 'add_work_log_screen.dart';
+import 'exercise_stats.dart';
 
 class ExerciseLogScreen extends BaseListScreen<WorkLogEntry> {
   final Exercise exercise;
@@ -27,6 +28,7 @@ class ExerciseLogScreen extends BaseListScreen<WorkLogEntry> {
 }
 
 class _ExerciseLogScreenState extends BaseListScreenState<WorkLogEntry> {
+  final Map<DateTime, List<WorkLogEntry>> groupedLogsCache = {};
   final Exercise exercise; // parent
   final int programId;
   @override
@@ -109,13 +111,15 @@ class _ExerciseLogScreenState extends BaseListScreenState<WorkLogEntry> {
   }
 
   Map<DateTime, List<WorkLogEntry>> _groupLogsByDate() {
-    final Map<DateTime, List<WorkLogEntry>> groupedLogs = {};
+    // Clear the cache to prevent duplicates
+    groupedLogsCache.clear();
+
     for (var log in baseItemsList) {
       final date = DateTime(
           log.date.year, log.date.month, log.date.day); // Strip time from date
-      groupedLogs.putIfAbsent(date, () => []).add(log);
+      groupedLogsCache.putIfAbsent(date, () => []).add(log);
     }
-    return groupedLogs;
+    return groupedLogsCache;
   }
 
   List<DateTime> _sortDates(Map<DateTime, List<WorkLogEntry>> groupedLogs) {
@@ -244,5 +248,16 @@ class _ExerciseLogScreenState extends BaseListScreenState<WorkLogEntry> {
               },
             ))
         .toList();
+  }
+
+  @override
+  void showCustomItemDialog(BuildContext context) {
+    List<WorkLogEntry> flattenedLogs = groupedLogsCache.values.expand((logs) => logs).toList();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatsDialog(flattenedLogs);
+      },
+    );
   }
 }
