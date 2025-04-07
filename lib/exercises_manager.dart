@@ -151,8 +151,17 @@ class ExerciseManager {
         }
       }
     }
+    return null;
+  }
 
-    // Return null if the exercise is not found
+  int? getExerciseIdByName(String name) {
+    for (var categoryExercises in categories.values) {
+      for (var exercise in categoryExercises) {
+        if (exercise.name.toLowerCase() == name.toLowerCase()) {
+          return exercise.getId();
+        }
+      }
+    }
     return null;
   }
 }
